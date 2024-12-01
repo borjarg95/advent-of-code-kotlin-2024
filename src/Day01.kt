@@ -1,20 +1,26 @@
+import kotlin.math.abs
+
+private fun List<String>.toIntLists(): Pair<List<Int>, List<Int>> =
+    map { it.substringBefore(" ").toInt() to it.substringAfterLast(" ").toInt() }
+        .unzip()
+
+fun part1(input: List<String>): Int {
+    var (left, right) = input.toIntLists()
+    left = left.sorted()
+    right = right.sorted()
+
+    return left.foldIndexed(0) { index, acc, value ->
+        acc + abs(right[index] - value)
+    }
+}
+
+fun part2(input: List<String>): Int {
+    val (left, right) = input.toIntLists()
+    val countsRight = right.groupingBy { it }.eachCount()
+    return left.sumOf { value -> value * (countsRight[value] ?: 0) }
+}
+
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
-    }
-
-    fun part2(input: List<String>): Int {
-        return input.size
-    }
-
-    // Test if implementation meets criteria from the description, like:
-    check(part1(listOf("test_input")) == 1)
-
-    // Or read a large test input from the `src/Day01_test.txt` file:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
-
-    // Read the input from the `src/Day01.txt` file.
     val input = readInput("Day01")
     part1(input).println()
     part2(input).println()
