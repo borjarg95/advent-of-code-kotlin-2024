@@ -1,32 +1,33 @@
 object Day03 {
-    private const val REGEX_EXP = """mul\(\d{1,3},\d{1,3}\)"""
-    private const val PART_2_BEFORE_DONT = """(mul\(\d{1,3},\d{1,3}\))(?=(?!.*don't\().*don't\()"""
-    private const val PART_2_AFTER_DO = """do\(\)[^m]*?(mul\(\d{1,3},\d{1,3}\))"""
+    private const val REGEX_PART_1 = """mul\(\d{1,3},\d{1,3}\)"""
+    private const val REGEX_PART_2 = """mul\((\d{1,3}),(\d{1,3})\)|don't\(\)|do\(\)"""
 
     fun part1(input: List<String>): Int =
          input.joinToString("")
-             .let { REGEX_EXP.toRegex().findAll(it) }
+             .let { REGEX_PART_1.toRegex().findAll(it) }
              .flatMap { match -> match.groupValues }
-             .sumOf { match ->
-                 val (first, second) = match.removePrefix("mul(")
-                     .removeSuffix(")")
-                     .split(",")
-                 first.toInt() * second.toInt()
-             }
+             .sumOf(String::mulMultiply)
 
-    fun part2(input: List<String>): Int =
-        input.joinToString("")
-            .let {
-                val matchesBeforeDont = PART_2_BEFORE_DONT.toRegex().findAll(it).map { matchResult -> matchResult.groupValues[1] }.toList()
-                val matchesAfterDo = PART_2_AFTER_DO.toRegex().findAll(it).map { matchResult -> matchResult.groupValues[1] }.toList()
-                matchesBeforeDont.plus(matchesAfterDo)
-            }.sumOf { match ->
-                val (first, second) = match.removePrefix("mul(")
-                    .removeSuffix(")")
-                    .split(",")
-                first.toInt() * second.toInt()
+    fun part2(input: List<String>): Int {
+        var active = true
+        return input.joinToString("")
+            .let { REGEX_PART_2.toRegex().findAll(it) }
+            .map { it.groupValues[0] }
+            .foldIndexed(0) { index, acc, current ->
+                when (current) {
+                    "do()" -> 0.also { active = true }
+                    "don't()" -> 0.also { active = false }
+                    else -> if (active) current.mulMultiply() else 0
+                } + acc
             }
+    }
+}
 
+private fun String.mulMultiply(): Int {
+    val (first, second) = removePrefix("mul(")
+        .removeSuffix(")")
+        .split(",")
+    return first.toInt() * second.toInt()
 }
 
 fun main() {
