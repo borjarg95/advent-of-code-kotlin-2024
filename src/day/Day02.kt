@@ -1,11 +1,13 @@
+package day
+
 import kotlin.math.abs
 
 private fun List<String>.toNumberedList(): Sequence<List<Int>> =
-    this.map {
+    map {
         it.split(" ").map { level -> level.toInt() }
     }.asSequence()
 
-object Day02 {
+data object Day02: Day {
     private fun List<Int>.validNumbers(): Boolean {
         var order: Int? = null
         return this.zipWithNext()
@@ -26,7 +28,7 @@ object Day02 {
 
     private fun calculateOrder(first: Int, second: Int) = if (first > second) -1 else 1
 
-    fun part1(input: List<String>): Int =
+    override fun part1(input: List<String>): Int =
          input.toNumberedList()
             .count { it.validNumbers() }
 
@@ -37,14 +39,8 @@ object Day02 {
         }
     }
 
-    fun part2(input: List<String>): Int =
+    override fun part2(input: List<String>): Int =
         input.toNumberedList()
             .count { produceInts(it).any { subList -> subList.validNumbers() }
         }
-}
-
-fun main() {
-    val input = readInput("Day02")
-    Day02.part1(input).println()
-    Day02.part2(input).println()
 }

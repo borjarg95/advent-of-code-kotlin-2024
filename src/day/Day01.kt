@@ -1,12 +1,13 @@
-import kotlin.math.abs
+package day
 
+import kotlin.math.abs
 
 private fun List<String>.toIntLists(): Pair<List<Int>, List<Int>> =
     map { it.substringBefore(" ").toInt() to it.substringAfterLast(" ").toInt() }
         .unzip()
 
-object Day01 {
-    fun part1(input: List<String>): Int {
+data object Day01 : Day {
+    override fun part1(input: List<String>): Int {
         var (left, right) = input.toIntLists()
         left = left.sorted()
         right = right.sorted()
@@ -16,17 +17,11 @@ object Day01 {
         }
     }
 
-    fun part2(input: List<String>): Int {
+    override fun part2(input: List<String>): Int {
         val (left, right) = input.toIntLists()
         val countsRight = right.groupingBy { it }.eachCount()
         return left.sumOf { value -> value * (countsRight[value] ?: 0) }
     }
-
-}
-fun main() {
-    val input = readInput("Day01")
-    Day01.part1(input).println()
-    Day01.part2(input).println()
 }
 
 

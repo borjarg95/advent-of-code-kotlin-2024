@@ -1,13 +1,13 @@
+package day
 
-
-object Day04 {
+data object Day04 : Day {
     private const val X = 'X'
     private const val M = 'M'
     private const val A = 'A'
     private const val S = 'S'
-    fun part1(input: List<String>): Int = input.flatMapIndexed { y, _ -> List(input.first().length) { x -> input.numXMAS(x, y) } }.sum()
+    override fun part1(input: List<String>): Int = input.flatMapIndexed { y, _ -> List(input.first().length) { x -> input.numXMAS(x, y) } }.sum()
 
-    fun part2(input: List<String>): Int = input.flatMapIndexed { y, _ -> List(input.first().length) { x -> input.isCrossMas(x, y) } }.count { it }
+    override fun part2(input: List<String>): Int = input.flatMapIndexed { y, _ -> List(input.first().length) { x -> input.isCrossMas(x, y) } }.count { it }
 
     private fun List<String>.isCrossMas(x: Int, y: Int): Boolean {
         val upLeft by lazy { this[y - 1][x - 1] }
@@ -56,10 +56,4 @@ object Day04 {
             isRightDown(x, y),
         ).count { it }
     }
-}
-
-fun main() {
-    val input = readInput("Day04")
-    Day04.part1(input).println()
-    Day04.part2(input).println()
 }

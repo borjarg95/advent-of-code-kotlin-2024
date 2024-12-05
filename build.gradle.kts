@@ -8,6 +8,10 @@ sourceSets {
     }
 }
 
+dependencies {
+    implementation(kotlin("reflect"))
+}
+
 tasks {
     wrapper {
         gradleVersion = "8.11.1"
