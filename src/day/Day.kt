@@ -1,6 +1,5 @@
 package day
 
-import println
 import readInput
 import java.io.File
 
@@ -13,7 +12,7 @@ sealed interface Day {
         val day = this.javaClass.simpleName
         println("Running $day")
         val input = readInput("input${File.separator}/$day")
-        part1(input).println()
-        part2(input).println()
+        println("part1: ${part1(input)}")
+        println("part2: ${part2(input)}")
     }
 }
