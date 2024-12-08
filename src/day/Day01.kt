@@ -7,7 +7,7 @@ private fun List<String>.toIntLists(): Pair<List<Int>, List<Int>> =
         .unzip()
 
 data object Day01 : Day {
-    override fun part1(input: List<String>): Int {
+    override suspend fun part1(input: List<String>): Long {
         var (left, right) = input.toIntLists()
         left = left.sorted()
         right = right.sorted()
@@ -17,10 +17,10 @@ data object Day01 : Day {
         }
     }
 
-    override fun part2(input: List<String>): Int {
+    override suspend fun part2(input: List<String>): Long {
         val (left, right) = input.toIntLists()
         val countsRight = right.groupingBy { it }.eachCount()
-        return left.sumOf { value -> value * (countsRight[value] ?: 0) }
+        return left.sumOf { value -> value * (countsRight[value]?.toLong() ?: 0) }
     }
 }
 

@@ -4,11 +4,11 @@ import readInput
 import java.io.File
 
 sealed interface Day {
-    fun part1(input: List<String>): Int
+    suspend fun part1(input: List<String>): Long
 
-    fun part2(input: List<String>): Int
+    suspend fun part2(input: List<String>): Long
 
-    fun run() {
+    suspend fun run() {
         val day = this.javaClass.simpleName
         println("Running $day")
         val input = readInput("input${File.separator}/$day")

@@ -28,9 +28,10 @@ data object Day02: Day {
 
     private fun calculateOrder(first: Int, second: Int) = if (first > second) -1 else 1
 
-    override fun part1(input: List<String>): Int =
+    override suspend fun part1(input: List<String>): Long =
          input.toNumberedList()
             .count { it.validNumbers() }
+             .toLong()
 
     private fun produceInts(ints: List<Int>): Sequence<List<Int>> = sequence {
         yield(ints)
@@ -39,8 +40,8 @@ data object Day02: Day {
         }
     }
 
-    override fun part2(input: List<String>): Int =
+    override suspend fun part2(input: List<String>): Long =
         input.toNumberedList()
-            .count { produceInts(it).any { subList -> subList.validNumbers() }
-        }
+            .count { produceInts(it).any { subList -> subList.validNumbers() } }
+            .toLong()
 }

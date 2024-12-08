@@ -80,7 +80,7 @@ data object Day06 : Day {
         }
     }
 
-    override fun part1(input: List<String>): Int {
+    override suspend fun part1(input: List<String>): Long {
         val cellsVisited = mutableSetOf<Position>()
         val securityRoom = SecurityRoom(input)
 
@@ -94,8 +94,8 @@ data object Day06 : Day {
             }
         }
 
-        return cellsVisited.count()
+        return cellsVisited.count().toLong()
     }
 
-    override fun part2(input: List<String>): Int = 0
+    override suspend fun part2(input: List<String>): Long = 0
 }

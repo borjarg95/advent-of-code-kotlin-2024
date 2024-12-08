@@ -5,9 +5,13 @@ data object Day04 : Day {
     private const val M = 'M'
     private const val A = 'A'
     private const val S = 'S'
-    override fun part1(input: List<String>): Int = input.flatMapIndexed { y, _ -> List(input.first().length) { x -> input.numXMAS(x, y) } }.sum()
+    override suspend fun part1(input: List<String>): Long = input.flatMapIndexed { y, _ ->
+        List(input.first().length) { x -> input.numXMAS(x, y) }
+    }.sum().toLong()
 
-    override fun part2(input: List<String>): Int = input.flatMapIndexed { y, _ -> List(input.first().length) { x -> input.isCrossMas(x, y) } }.count { it }
+    override suspend fun part2(input: List<String>): Long = input.flatMapIndexed { y, _ ->
+        List(input.first().length) { x -> input.isCrossMas(x, y) }
+    }.count { it }.toLong()
 
     private fun List<String>.isCrossMas(x: Int, y: Int): Boolean {
         val upLeft by lazy { this[y - 1][x - 1] }
